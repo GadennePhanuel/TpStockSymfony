@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formStock 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Créer un Stock{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>Créer un nouveau stock</h1>
+    </div>
+
+    <div class="container-fluid">
+        {{ form_start(formStock) }}
+
+        {{ form_row(formStock.label) }}
+
+        <button class="btn btn-primary mt-4">{{ button|default('Créer') }}</button>
+
+        {{ form_end(formStock) }}
+    </div>
+
+
+
+
+
+{% endblock %}

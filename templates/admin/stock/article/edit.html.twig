@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% form_theme formQty 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Stock de {{ stock.label }} {% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>Stock de {{ stock.label }}</h1>
+    </div>
+    <div class="container text-center">
+        <h2>Article n° {{ belong.article.ref }}</h2>
+    </div>
+
+    <div class="container-sm text-center mt-5">
+        {{ form_start(formQty) }}
+
+        {{ form_widget(formQty) }}
+
+        <button class="btn btn-primary mt-4">{{ button|default('Enregistrer') }}</button>
+        {{ form_end(formQty) }}
+    </div>
+
+
+
+{% endblock %}

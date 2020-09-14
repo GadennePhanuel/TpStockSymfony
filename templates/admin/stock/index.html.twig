@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Stocks{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>État des stocks</h1>
+    </div>
+
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nom du stock</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.label }}</td>
+                    <td>
+                        <a href="{{ path('admin.stock.inspect', {id: stock.id }) }}" class="btn btn-secondary">Inspecter</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <a href="{{ path('admin.stock.article.new') }}" class="btn btn-primary">Créer une référence d'article</a>
+        </div>
+        <div class="text-right mt-4">
+            <a href="{{ path('admin.stock.new') }}" class="btn btn-primary">Créer un nouveau stock</a>
+        </div>
+    </div>
+
+
+{% endblock %}

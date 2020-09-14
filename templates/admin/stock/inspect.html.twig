@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock de {{ stock.label }} {% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>État du stock de {{ stock.label }}</h1>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nom de l'article</th>
+            <th>REF Article</th>
+            <th>Quantité</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        {% for belong in belongs %}
+        <tr>
+            <td>{{ belong.article.label }}</td>
+            <td>{{ belong.article.ref }}</td>
+            <td>{{ belong.qty }}</td>
+            <td>
+                <a href=" {{ path('admin.stock.article.edit', {id: stock.id, id_belong: belong.id})}} " class="btn btn-secondary">Editer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

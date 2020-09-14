@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Créer article{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>Créer un nouvel article</h1>
+    </div>
+
+    <div class="container-fluid">
+        {{ form_start(formArticle) }}
+
+            {{ form_row(formArticle.label) }}
+
+            {{ form_row(formArticle.price) }}
+
+            {{ form_row(formArticle.ref) }}
+
+            <button class="btn btn-primary mt-4">{{ button|default('Créer') }}</button>
+
+        {{ form_end(formArticle) }}
+    </div>
+
+
+
+
+
+{% endblock %}
