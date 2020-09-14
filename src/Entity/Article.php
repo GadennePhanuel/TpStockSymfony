@@ -28,7 +28,7 @@ class Article
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ref;
 
