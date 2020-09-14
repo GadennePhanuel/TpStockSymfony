@@ -7,6 +7,7 @@ use App\Entity\Stock;
 use App\Form\ArticleQtyType;
 use App\Form\ArticleType;
 use App\Form\StockType;
+use App\Repository\ArticleRepository;
 use App\Repository\BelongingRepository;
 use App\Repository\StockRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -30,13 +31,18 @@ class AdminStockController extends AbstractController
      * @var ObjectManager
      */
     private $manager;
+    /**
+     * @var ArticleRepository
+     */
+    private $articleRepository;
 
-    public function __construct(BelongingRepository $belongingRepository, StockRepository $stockRepository, ObjectManager $manager)
+    public function __construct(BelongingRepository $belongingRepository, StockRepository $stockRepository, ArticleRepository $articleRepository, ObjectManager $manager)
     {
 
         $this->belongingRepository = $belongingRepository;
         $this->stockRepository = $stockRepository;
         $this->manager = $manager;
+        $this->articleRepository = $articleRepository;
     }
 
     /**
@@ -78,6 +84,22 @@ class AdminStockController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("admin/stock/{id}/add", name="admin.stock.inspect.addArticle")
+     * @param Stock $stock
+     * @param $id
+     * @return Response
+     */
+    public function addArticle($id, Stock $stock): Response
+    {
+        $articles = $this->articleRepository->findAllArticleNotInCurrentStock($id);
+
+        return $this->render('admin/stock/add.html.twig', [
+            'articles' => $articles,
+            'stock' => $stock,
+        ]);
+    }
 
 
 

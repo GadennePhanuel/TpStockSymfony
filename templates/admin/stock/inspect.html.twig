@@ -29,5 +29,8 @@
         {% endfor %}
     </table>
 
+    <div class="text-right mt-4">
+        <a href="{{ path('admin.stock.inspect.addArticle', {id: stock.id}) }}" class="btn btn-primary">Ajouter un article au stock</a>
+    </div>
 
 {% endblock %}
