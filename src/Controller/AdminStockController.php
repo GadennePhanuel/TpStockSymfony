@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Belonging;
 use App\Entity\Stock;
 use App\Form\ArticleQtyType;
 use App\Form\ArticleType;
+use App\Form\BelongingType;
 use App\Form\StockType;
 use App\Repository\ArticleRepository;
 use App\Repository\BelongingRepository;
@@ -41,8 +43,8 @@ class AdminStockController extends AbstractController
 
         $this->belongingRepository = $belongingRepository;
         $this->stockRepository = $stockRepository;
-        $this->manager = $manager;
         $this->articleRepository = $articleRepository;
+        $this->manager = $manager;
     }
 
     /**
@@ -86,6 +88,20 @@ class AdminStockController extends AbstractController
 
 
     /**
+     * @Route("/admin/stock/search", name="admin.stock.article.search")
+     * @return Response
+     */
+    public function search(): Response
+    {
+
+        return $this->render('admin/stock/article/search.html.twig', [
+
+        ]);
+    }
+
+
+
+    /**
      * @Route("admin/stock/{id}/add", name="admin.stock.inspect.addArticle")
      * @param Stock $stock
      * @param $id
@@ -98,6 +114,40 @@ class AdminStockController extends AbstractController
         return $this->render('admin/stock/add.html.twig', [
             'articles' => $articles,
             'stock' => $stock,
+        ]);
+    }
+
+
+    /**
+     * @Route("admin/stock/{idStock}/add/{idArticle}", name="admin.stock.inspect.addArticle.current")
+     * @param $idStock
+     * @param $idArticle
+     * @param Request $request
+     * @return Response
+     */
+    public function addArticleAtCurrentStock($idStock, $idArticle, Request $request): Response
+    {
+        $stock = $this->stockRepository->find($idStock);
+        $article = $this->articleRepository->find($idArticle);
+
+        $belong = new Belonging();
+        $belong->setArticle($article);
+        $belong->setStock($stock);
+
+        $formBelong = $this->createForm(BelongingType::class, $belong);
+        $formBelong->handleRequest($request);
+
+        if ($formBelong->isSubmitted() && $formBelong->isValid()){
+            $this->manager->persist($belong);
+            $this->manager->flush();
+
+            return $this->redirectToRoute('admin.stock.inspect.addArticle', array('id' => $idStock));
+        }
+
+        return $this->render('admin/stock/addForm.html.twig', [
+            'stock' => $stock,
+            'article' => $article,
+            'formBelong' => $formBelong->createView()
         ]);
     }
 
@@ -137,7 +187,7 @@ class AdminStockController extends AbstractController
             $this->manager->persist($article);
             $this->manager->flush();
 
-            return $this->redirectToRoute('admin.stock.index');
+            return $this->redirectToRoute('admin.stock.article.index');
         }
 
         return $this->render('admin/stock/article/new.html.twig', [
@@ -147,16 +197,58 @@ class AdminStockController extends AbstractController
     }
 
 
+    /**
+     * @Route("/admin/stock/article/index", name="admin.stock.article.index")
+     * @return Response
+     */
+    public function showArticle(): Response
+    {
+        $articles = $this->articleRepository->findAll();
+        return $this->render('admin/stock/article/index.html.twig', [
+            'articles' => $articles
+        ]);
+    }
+
+
 
     /**
-     * @Route("/admin/stock/{id}/{id_belong}", name="admin.stock.article.edit" )
+     * @Route("/admin/stock/article/editArticle/{id_article}", name="admin.stock.article.editArticle")
+     * @param Request $request
+     * @param $id_article
+     * @return Response
+     */
+    public function editArticle(Request $request, $id_article): Response
+    {
+        $article = $this->articleRepository->find($id_article);
+        $formArticle = $this->createForm(ArticleType::class, $article);
+        $formArticle->handleRequest($request);
+
+        if ($formArticle->isSubmitted() && $formArticle->isValid()){
+            $this->manager->flush();
+            return $this->redirectToRoute('admin.stock.article.index');
+        }
+
+
+
+        return $this->render('admin/stock/article/editArticle.html.twig', [
+            'article' => $article,
+            'formArticle' => $formArticle->createView()
+        ]);
+    }
+
+
+
+
+
+    /**
+     * @Route("/admin/stock/{id}/{id_belong}", name="admin.stock.article.editQty" )
      * @param Stock $stock
      * @param $id
      * @param $id_belong
      * @param Request $request
      * @return Response
      */
-    public function editArticle(Stock $stock, $id, $id_belong, Request $request): Response
+    public function editQtyArticle(Stock $stock, $id, $id_belong, Request $request): Response
     {
         $belong = $this->belongingRepository->find($id_belong);
 
@@ -169,17 +261,12 @@ class AdminStockController extends AbstractController
         }
 
 
-        return $this->render('admin/stock/article/edit.html.twig', [
+        return $this->render('admin/stock/article/editQty.html.twig', [
             'stock' => $stock,
             'belong' => $belong,
             'formQty' => $formQty->createView()
         ]);
     }
-
-
-
-
-
 
 }
 

@@ -8,29 +8,32 @@
         <h1>État du stock de {{ stock.label }}</h1>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nom de l'article</th>
-            <th>REF Article</th>
-            <th>Quantité</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        {% for belong in belongs %}
-        <tr>
-            <td>{{ belong.article.label }}</td>
-            <td>{{ belong.article.ref }}</td>
-            <td>{{ belong.qty }}</td>
-            <td>
-                <a href=" {{ path('admin.stock.article.edit', {id: stock.id, id_belong: belong.id})}} " class="btn btn-secondary">Editer</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container-fluid">
+        <div class="text-right mt-4 mb-4">
+            <a href="{{ path('admin.stock.inspect.addArticle', {id: stock.id}) }}" class="btn btn-primary">Ajouter un article au stock</a>
+        </div>
 
-    <div class="text-right mt-4">
-        <a href="{{ path('admin.stock.inspect.addArticle', {id: stock.id}) }}" class="btn btn-primary">Ajouter un article au stock</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nom de l'article</th>
+                <th>REF Article</th>
+                <th>Quantité</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            {% for belong in belongs %}
+            <tr>
+                <td>{{ belong.article.label }}</td>
+                <td>{{ belong.article.ref }}</td>
+                <td>{{ belong.qty }}</td>
+                <td>
+                    <a href=" {{ path('admin.stock.article.editQty', {id: stock.id, id_belong: belong.id})}} " class="btn btn-secondary">Editer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
     </div>
-
 {% endblock %}

@@ -18,6 +18,7 @@
         {{ form_widget(formQty) }}
 
         <button class="btn btn-primary mt-4">{{ button|default('Enregistrer') }}</button>
+        <a href="{{ path('admin.stock.inspect', {id: stock.id}) }}" class="btn btn-dark mt-4" style="display: inline-block">Annuler</a>
         {{ form_end(formQty) }}
     </div>
 

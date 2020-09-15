@@ -17,7 +17,12 @@
 
         <button class="btn btn-primary mt-4">{{ button|default('Créer') }}</button>
 
+        <a href="{{ path('admin.stock.index') }}" class="btn btn-dark mt-4" style="display: inline-block">Annuler</a>
+
         {{ form_end(formStock) }}
+
+
+
     </div>
 
 

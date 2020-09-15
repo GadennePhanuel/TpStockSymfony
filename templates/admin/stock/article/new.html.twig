@@ -21,6 +21,8 @@
 
             <button class="btn btn-primary mt-4">{{ button|default('Créer') }}</button>
 
+        <a href="{{ path('admin.stock.article.index') }}" class="btn btn-dark mt-4" style="display: inline-block">Retourner à la liste des articles</a>
+
         {{ form_end(formArticle) }}
     </div>
 

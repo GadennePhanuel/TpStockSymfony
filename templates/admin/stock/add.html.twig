@@ -8,23 +8,28 @@
         <h1>Ajouter un article au stock de {{ stock.label }}</h1>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nom de l'article</th>
-            <th>REF Article</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        {% for article in articles %}
+    <div class="container-fluid">
+        <a href="{{ path('admin.stock.inspect', {id: stock.id}) }}" class="btn btn-dark mb-4">Annuler</a>
+
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ article.label }}</td>
-                <td>{{ article.ref }}</td>
-                <td>
-                    <a href="#" class="btn btn-secondary">Ajouter</a>
-                </td>
+                <th>Nom de l'article</th>
+                <th>REF Article</th>
+                <th>Action</th>
             </tr>
-        {% endfor %}
-    </table>
+            </thead>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.label }}</td>
+                    <td>{{ article.ref }}</td>
+                    <td>
+                        <a href="{{ path('admin.stock.inspect.addArticle.current', {idStock: stock.id, idArticle: article.id}) }}" class="btn btn-secondary">Ajouter</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
 
 {% endblock %}

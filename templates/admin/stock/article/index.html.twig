@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h1>Liste des articles</h1>
+    </div>
+
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td>Ref</td>
+                <td>Nom</td>
+                <td>Prix</td>
+                <td>Action</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+            <tr>
+                <td>{{ article.ref }}</td>
+                <td>{{ article.label }}</td>
+                <td>{{ article.price }}</td>
+                <td>
+                    <a href="{{ path('admin.stock.article.editArticle', {id_article: article.id}) }}" class="btn btn-secondary">Editer</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
