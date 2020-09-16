@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
 {% block title %}MonAppliStock{% endblock %}
 
@@ -6,4 +6,9 @@
     <div class="jumbotron text-center">
         <h1>APPLI GESTION DES STOCKS</h1>
     </div>
+
+    <div class="container">
+        <a class="btn btn-primary" href="{{ path('security.login') }}">Connection</a>
+    </div>
+
 {% endblock %}
