@@ -14,6 +14,7 @@ use App\Repository\BelongingRepository;
 use App\Repository\StockRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -97,6 +98,28 @@ class AdminStockController extends AbstractController
         return $this->render('admin/stock/article/search.html.twig', [
 
         ]);
+    }
+
+
+    /**
+     * @Route("/admin/stock/search/{ref}", name="admin.stock.article.search.ref")
+     * @param $ref
+     * @return JsonResponse
+     */
+    public function resultSearch($ref)
+    {
+        $article = $this->articleRepository->findOneBy(['ref' => $ref]);
+
+
+        if ($article == null){
+            return $this->json(['search' => false, 'message' => 'pas d\'article correspondant à cette référence'], 200);
+        }else{
+            $articleId = $article->getId();
+            $belong = $this->belongingRepository->findBy(['article' => $articleId]);
+            return $this->json(['search' => true ,'message' => 'article trouvé', 'article' => $article, 'belong' => $belong], 200);
+        }
+
+
     }
 
 
